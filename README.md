@@ -1,6 +1,6 @@
-# Thingsboard in docker
+# ThingsBoard in docker
 
-This ThingsBoard in docker container based in [this repo](https://hub.docker.com/r/thingsboard/tb-postgres).
+This ThingsBoard in docker container based in [this repo](https://hub.docker.com/r/thingsboard/tb-postgres). \
 This version doesn't contain postgres database inside container, so you can add your own database or use one from docker compose file.
 
 ## Usage from docker compose
@@ -27,4 +27,13 @@ docker-compose logs
 docker stack deploy -c swarm-deploy.yml tb
 ```
 
+## Default username / password
 
+After executing this command you can open http://{yor-host-ip}:9090 in your browser. \
+You should see ThingsBoard login page. Use the following default credentials:
+
+- **Systen Administrator:** sysadmin@thingsboard.org / sysadmin
+- **Tenant Administrator:** tenant@thingsboard.org / tenant
+- **Customer User:** customer@thingsboard.org / customer
+
+You can always change passwords for each account in account profile page.
