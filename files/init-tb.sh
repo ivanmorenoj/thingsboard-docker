@@ -9,6 +9,12 @@ firstlaunch=${DATA_FOLDER}/.firstlaunch
 
 source "${CONF_FOLDER}/${configfile}"
 
+# Check if password is in file
+if [ ! -z "$PG_PASS_FILE" ]; then
+  echo "Set password from file: $PG_PASS_FILE"
+  PG_PASS=$(cat ${PG_PASS_FILE})
+fi
+
 # export DB environment variables
 export SPRING_DATASOURCE_URL=jdbc:postgresql://${PG_HOST}:${PG_PORT}/thingsboard
 export SPRING_DATASOURCE_USERNAME=${PG_USER}
