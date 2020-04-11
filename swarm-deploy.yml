@@ -11,17 +11,40 @@ services:
             - PG_HOST=db-postgres
             - PG_USER=thingsboard
             - PG_PASS=verysecret
+        networks:
+            - frontend
+            - backend
         volumes:
             - thingsboard-data:/data
-    
+        deploy:
+            replicas: 1
+            update_config:
+                parallelism: 2
+                delay: 10s
+            restart_policy:
+                condition: on-failure
+        
     db-postgres:
         image: postgres:12-alpine
         environment:
             - POSTGRES_USER=thingsboard
             - POSTGRES_DB=thingsboard 
             - POSTGRES_PASSWORD=verysecret
+        networks:
+            - backend
         volumes:
             - postgres-data:/var/lib/postgresql/data
+        deploy:
+            replicas: 1
+            update_config:
+                parallelism: 2
+                delay: 10s
+            restart_policy:
+                condition: on-failure
+
+networks:
+    frontend:
+    backend:
 
 volumes:
     postgres-data:

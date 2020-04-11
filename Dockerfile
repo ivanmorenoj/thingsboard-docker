@@ -11,9 +11,6 @@ ENV DATABASE_TS_TYPE=sql
 ENV DATABASE_ENTITIES_TYPE=sql
 ENV SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.PostgreSQLDialect
 ENV SPRING_DRIVER_CLASS_NAME=org.postgresql.Driver
-ENV SPRING_DATASOURCE_URL=jdbc:postgresql://${PG_HOST}:${PG_PORT}/thingsboard
-ENV SPRING_DATASOURCE_USERNAME=${PG_USER}
-ENV SPRING_DATASOURCE_PASSWORD=${PG_PASS}
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \

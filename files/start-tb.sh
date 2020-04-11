@@ -15,6 +15,7 @@
 # limitations under the License.
 #
 
+
 CONF_FOLDER="/usr/share/thingsboard/conf"
 jarfile=/usr/share/thingsboard/bin/thingsboard.jar
 configfile=thingsboard.conf
@@ -22,10 +23,15 @@ firstlaunch=${DATA_FOLDER}/.firstlaunch
 
 source "${CONF_FOLDER}/${configfile}"
 
+# export DB environment variables
+export SPRING_DATASOURCE_URL=jdbc:postgresql://${PG_HOST}:${PG_PORT}/thingsboard
+export SPRING_DATASOURCE_USERNAME=${PG_USER}
+export SPRING_DATASOURCE_PASSWORD=${PG_PASS}
+
 until nmap $PG_HOST -p $PG_PORT | grep "$PG_PORT/tcp open"
 do
   echo "Waiting for postgres db to start..."
-  sleep 10
+  sleep 1
 done
 
 if [ ! -f ${firstlaunch} ]; then
