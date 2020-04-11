@@ -33,6 +33,7 @@ else
     fromVersion="${FROM_VERSION// }"
 fi
 
+set -e
 java -cp ${jarfile} $JAVA_OPTS -Dloader.main=org.thingsboard.server.ThingsboardInstallApplication \
                 -Dspring.jpa.hibernate.ddl-auto=none \
                 -Dinstall.upgrade=true \

@@ -41,4 +41,4 @@ EXPOSE 5683/udp
 
 VOLUME ["/data"]
 
-CMD ["start-tb.sh"]
+CMD ["/usr/bin/start-tb.sh"]

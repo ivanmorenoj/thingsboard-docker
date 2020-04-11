@@ -15,7 +15,6 @@
 # limitations under the License.
 #
 
-
 CONF_FOLDER="/usr/share/thingsboard/conf"
 jarfile=/usr/share/thingsboard/bin/thingsboard.jar
 configfile=thingsboard.conf
@@ -35,11 +34,13 @@ do
 done
 
 if [ ! -f ${firstlaunch} ]; then
-    install-tb.sh --loadDemo
-    touch ${firstlaunch}
+  echo "Installing ThingsBoard ..."
+  install-tb.sh --loadDemo
+  touch ${firstlaunch}
 fi
 
 echo "Starting ThingsBoard ..."
+set -e
 
 java -cp ${jarfile} $JAVA_OPTS -Dloader.main=org.thingsboard.server.ThingsboardServerApplication \
                     -Dspring.jpa.hibernate.ddl-auto=none \
