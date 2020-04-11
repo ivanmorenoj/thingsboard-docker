@@ -33,8 +33,6 @@ RUN chmod a+x /tmp/*.sh \
 RUN curl -L https://github.com/thingsboard/thingsboard/releases/download/v2.4.3/thingsboard-2.4.3.deb -o /tmp/thingsboard.deb && \
     dpkg -i /tmp/thingsboard.deb
 
-RUN systemctl --no-reload disable --now thingsboard.service > /dev/null 2>&1 || :
-
 RUN mv /tmp/logback.xml /usr/share/thingsboard/conf \
     && mv /tmp/thingsboard.conf /usr/share/thingsboard/conf \
     && rm -rf /tmp/*

@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+    thingsboard:
+        image: ivan28823/thingsboard:2.4.3-testing
+        ports:
+            - 9090:9090
+            - 1883:1883
+            - 5683:5683/udp
+        volumes:
+            - thingsboard-data:/data
+    
+    postgresql:
+        image: postgres:12-alpine
+        environment:
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DB=thingsboard 
+        volumes:
+            - postgres-data:/var/lib/postgresql/data
+
+volumes:
+    postgres-data:
+    thingsboard-data:
