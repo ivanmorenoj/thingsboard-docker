@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
     thingsboard:
-        image: ivan28823/thingsboard:v2.5
+        image: ivan28823/thingsboard:slim-buster
         ports:
             - 9090:9090
             - 1883:1883

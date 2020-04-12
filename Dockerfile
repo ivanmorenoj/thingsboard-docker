@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM openjdk:8-jre-slim-buster
 
 ENV THINGS_BOARD_VERSION 3.0.1
 
@@ -18,14 +18,14 @@ ENV LOAD_DEMO=true \
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    openjdk-8-jdk nmap curl && \
-    update-alternatives --auto java && \
-    curl -L https://github.com/thingsboard/thingsboard/releases/download/v${THINGS_BOARD_VERSION}/thingsboard-${THINGS_BOARD_VERSION}.deb -o /tmp/thingsboard.deb && \
-    dpkg -i /tmp/thingsboard.deb && rm -rf /tmp/* && \
-    apt-get remove -y curl && \
+    nmap curl && \
+    apt-get clean && \
     apt-get autoremove -y && \
     echo ${THINGS_BOARD_VERSION} > /etc/tb-release && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN curl -L https://github.com/thingsboard/thingsboard/releases/download/v${THINGS_BOARD_VERSION}/thingsboard-${THINGS_BOARD_VERSION}.deb -o /tmp/thingsboard.deb && \
+    dpkg --force-all -i /tmp/thingsboard.deb && rm -rf /tmp/*
 
 COPY files/logback.xml files/thingsboard.conf /usr/share/thingsboard/conf/
 COPY files/init-tb.sh /usr/bin/
