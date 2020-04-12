@@ -7,10 +7,12 @@ services:
             - 9090:9090
             - 1883:1883
             - 5683:5683/udp
+        secrets:
+            - psql-passw
         environment:
             - PG_HOST=db-postgres
             - PG_USER=thingsboard
-            - PG_PASS=verysecret
+            - PG_PASS_FILE=/run/secrets/psql-passw
         networks:
             - frontend
             - backend
@@ -26,10 +28,12 @@ services:
         
     db-postgres:
         image: postgres:12-alpine
+        secrets:
+            - psql-passw
         environment:
             - POSTGRES_USER=thingsboard
             - POSTGRES_DB=thingsboard 
-            - POSTGRES_PASSWORD=verysecret
+            - POSTGRES_PASSWORD_FILE=/run/secrets/psql-passw
         networks:
             - backend
         volumes:
@@ -49,3 +53,7 @@ networks:
 volumes:
     postgres-data:
     thingsboard-data:
+
+secrets:
+    psql-passw:
+        external: true
