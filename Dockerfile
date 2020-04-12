@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM openjdk:8-jre-slim-buster
 
 ENV PG_HOST=postgresql
 ENV PG_PORT=5432
@@ -15,14 +15,13 @@ ENV SPRING_DRIVER_CLASS_NAME=org.postgresql.Driver
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    openjdk-8-jdk nmap curl && \
+    nmap curl && \
     apt-get clean && \
     apt-get autoremove -y && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
-    update-alternatives --auto java
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN curl -L https://github.com/thingsboard/thingsboard/releases/download/v2.4.3/thingsboard-2.4.3.deb -o /tmp/thingsboard.deb && \
-    dpkg -i /tmp/thingsboard.deb && rm -rf /tmp/*
+    dpkg --force-all -i /tmp/thingsboard.deb && rm -rf /tmp/*
 
 COPY files/logback.xml files/thingsboard.conf /usr/share/thingsboard/conf/
 COPY files/init-tb.sh /usr/bin/
