@@ -9,6 +9,12 @@ firstlaunch=${DATA_FOLDER}/.firstlaunch
 
 source "${CONF_FOLDER}/${configfile}"
 
+# set low ram usage in java opts
+if [ "$LOW_RAM_USAGE" = "true" ]; then
+  echo "Set low ram usage for thingsboard"
+  export JAVA_OPTS="$JAVA_OPTS -Xms256M -Xmx256M"
+fi
+
 # Check if password is in file
 if [ ! -z "$PG_PASS_FILE" ]; then
   echo "Set password from file: $PG_PASS_FILE"

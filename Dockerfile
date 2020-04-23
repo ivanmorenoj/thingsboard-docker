@@ -1,28 +1,28 @@
 FROM ubuntu:18.04
 
-ENV PG_HOST=postgresql
-ENV PG_PORT=5432
-ENV PG_USER=postgres
-ENV PG_PASS=postgres
+ENV PG_HOST=postgresql \
+    PG_PORT=5432 \ 
+    PG_USER=postgres \
+    PG_PASS=postgres
 
-ENV LOAD_DEMO=true
-ENV DATA_FOLDER=/data
-ENV HTTP_BIND_PORT=9090
-ENV DATABASE_TS_TYPE=sql
-ENV DATABASE_ENTITIES_TYPE=sql
-ENV SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.PostgreSQLDialect
-ENV SPRING_DRIVER_CLASS_NAME=org.postgresql.Driver
+ENV LOAD_DEMO=true \
+    LOW_RAM_USAGE=false \
+    DATA_FOLDER=/data \
+    HTTP_BIND_PORT=9090 \
+    DATABASE_TS_TYPE=sql \
+    DATABASE_ENTITIES_TYPE=sql\
+    SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.PostgreSQLDialect \
+    SPRING_DRIVER_CLASS_NAME=org.postgresql.Driver 
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     openjdk-8-jdk nmap curl && \
-    apt-get clean && \
+    update-alternatives --auto java && \
+    curl -L https://github.com/thingsboard/thingsboard/releases/download/v2.4.3/thingsboard-2.4.3.deb -o /tmp/thingsboard.deb && \
+    dpkg -i /tmp/thingsboard.deb && rm -rf /tmp/* && \
+    apt-get remove -y curl && \
     apt-get autoremove -y && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
-    update-alternatives --auto java
-
-RUN curl -L https://github.com/thingsboard/thingsboard/releases/download/v2.4.3/thingsboard-2.4.3.deb -o /tmp/thingsboard.deb && \
-    dpkg -i /tmp/thingsboard.deb && rm -rf /tmp/*
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY files/logback.xml files/thingsboard.conf /usr/share/thingsboard/conf/
 COPY files/init-tb.sh /usr/bin/
