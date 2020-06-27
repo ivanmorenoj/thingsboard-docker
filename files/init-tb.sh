@@ -6,6 +6,8 @@ CONF_FOLDER="/usr/share/thingsboard/conf"
 jarfile=/usr/share/thingsboard/bin/thingsboard.jar
 configfile=thingsboard.conf
 firstlaunch=${DATA_FOLDER}/.firstlaunch
+versionFile=${DATA_FOLDER}/.tb-currentVersion
+containerVersion=$(cat /etc/tb-release)
 
 source "${CONF_FOLDER}/${configfile}"
 
@@ -38,9 +40,29 @@ if [ ! -f ${firstlaunch} ]; then
                   -Dinstall.load_demo=${LOAD_DEMO} \
                   -Dspring.jpa.hibernate.ddl-auto=none \
                   -Dinstall.upgrade=false \
-                  -Dlogging.config=/usr/share/thingsboard/bin/install/logback.xml \
+                  -Dlogging.config=/${CONF_FOLDER}/logback.xml \
                   org.springframework.boot.loader.PropertiesLauncher
   touch ${firstlaunch}
+  cat /etc/tb-release > ${versionFile}
+fi
+
+actualVersion=$(cat ${versionFile})
+
+if [ "$(printf '%s\n' "$actualVersion" "$containerVersion" | sort -V | head -n1)" = "$containerVersion" ]; then 
+  echo "You are running the container version..."
+else 
+  echo "The current version is ${actualVersion}"
+  echo "Container version is ${containerVersion}"
+  echo "Upgrading to ${containerVersion}..."
+
+  java -cp ${jarfile} $JAVA_OPTS -Dloader.main=org.thingsboard.server.ThingsboardInstallApplication \
+                -Dspring.jpa.hibernate.ddl-auto=none \
+                -Dinstall.upgrade=true \
+                -Dinstall.upgrade.from_version=${actualVersion} \
+                -Dlogging.config=${CONF_FOLDER}/logback.xml \
+                org.springframework.boot.loader.PropertiesLauncher
+
+  echo ${containerVersion} > ${versionFile}
 fi
 
 echo "Starting ThingsBoard ..."

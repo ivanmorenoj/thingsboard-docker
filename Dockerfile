@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-ENV THINGS_BOARD_VERSION 2.4.3
+ENV THINGS_BOARD_VERSION 2.5
 
 ENV PG_HOST=postgresql \
     PG_PORT=5432 \ 
@@ -24,6 +24,7 @@ RUN apt-get update && \
     dpkg -i /tmp/thingsboard.deb && rm -rf /tmp/* && \
     apt-get remove -y curl && \
     apt-get autoremove -y && \
+    echo ${THINGS_BOARD_VERSION} > /etc/tb-release && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY files/logback.xml files/thingsboard.conf /usr/share/thingsboard/conf/
