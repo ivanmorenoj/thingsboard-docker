@@ -1,5 +1,7 @@
 FROM ubuntu:18.04
 
+ENV THINGS_BOARD_VERSION 2.4.3
+
 ENV PG_HOST=postgresql \
     PG_PORT=5432 \ 
     PG_USER=postgres \
@@ -18,7 +20,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     openjdk-8-jdk nmap curl && \
     update-alternatives --auto java && \
-    curl -L https://github.com/thingsboard/thingsboard/releases/download/v2.4.3/thingsboard-2.4.3.deb -o /tmp/thingsboard.deb && \
+    curl -L https://github.com/thingsboard/thingsboard/releases/download/v${THINGS_BOARD_VERSION}/thingsboard-${THINGS_BOARD_VERSION}.deb -o /tmp/thingsboard.deb && \
     dpkg -i /tmp/thingsboard.deb && rm -rf /tmp/* && \
     apt-get remove -y curl && \
     apt-get autoremove -y && \
