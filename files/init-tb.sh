@@ -40,7 +40,7 @@ if [ ! -f ${firstlaunch} ]; then
                   -Dinstall.load_demo=${LOAD_DEMO} \
                   -Dspring.jpa.hibernate.ddl-auto=none \
                   -Dinstall.upgrade=false \
-                  -Dlogging.config=/${CONF_FOLDER}/logback.xml \
+		  -Dlogging.config=/usr/share/thingsboard/bin/install/logback.xml \
                   org.springframework.boot.loader.PropertiesLauncher
   touch ${firstlaunch}
   cat /etc/tb-release > ${versionFile}
@@ -59,7 +59,7 @@ else
                 -Dspring.jpa.hibernate.ddl-auto=none \
                 -Dinstall.upgrade=true \
                 -Dinstall.upgrade.from_version=${actualVersion} \
-                -Dlogging.config=${CONF_FOLDER}/logback.xml \
+		-Dlogging.config=/usr/share/thingsboard/bin/install/logback.xml \
                 org.springframework.boot.loader.PropertiesLauncher
 
   echo ${containerVersion} > ${versionFile}
