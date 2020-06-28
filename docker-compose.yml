@@ -2,7 +2,11 @@ version: "3.7"
 
 services:
     thingsboard:
+<<<<<<< HEAD
         image: ivan28823/thingsboard:slim-buster
+=======
+        image: ivan28823/thingsboard:2.4.3-slim-buster
+>>>>>>> b1b4da6... cheate dockefile for slim-buster base image
         ports:
             - 9090:9090
             - 1883:1883

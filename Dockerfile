@@ -21,10 +21,16 @@ RUN apt-get update && \
     nmap curl && \
     apt-get clean && \
     apt-get autoremove -y && \
+<<<<<<< HEAD
     echo ${THINGS_BOARD_VERSION} > /etc/tb-release && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN curl -L https://github.com/thingsboard/thingsboard/releases/download/v${THINGS_BOARD_VERSION}/thingsboard-${THINGS_BOARD_VERSION}.deb -o /tmp/thingsboard.deb && \
+=======
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN curl -L https://github.com/thingsboard/thingsboard/releases/download/v2.4.3/thingsboard-2.4.3.deb -o /tmp/thingsboard.deb && \
+>>>>>>> b1b4da6... cheate dockefile for slim-buster base image
     dpkg --force-all -i /tmp/thingsboard.deb && rm -rf /tmp/*
 
 COPY files/logback.xml files/thingsboard.conf /usr/share/thingsboard/conf/
