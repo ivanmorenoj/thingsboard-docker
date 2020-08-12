@@ -1,5 +1,11 @@
 # ThingsBoard in docker
 
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/ivan28823/thingsboard?style=plastic)
+![Docker Stars](https://img.shields.io/docker/stars/ivan28823/thingsboard?style=plastic)
+![Docker Pulls](https://img.shields.io/docker/pulls/ivan28823/thingsboard?style=plastic)
+![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/ivan28823/thingsboard?style=plastic)
+![Docker Image Version (latest semver)](https://img.shields.io/docker/v/ivan28823/thingsboard?sort=semver&style=plastic)
+
 This ThingsBoard in docker container based in [this repo](https://hub.docker.com/r/thingsboard/tb-postgres). \
 This version doesn't contain postgres database inside container, so you can add your own database or use one from docker compose file.
 
