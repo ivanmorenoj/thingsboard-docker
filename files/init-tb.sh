@@ -2,6 +2,7 @@
 # init script
 
 set -e
+
 CONF_FOLDER="/usr/share/thingsboard/conf"
 jarfile=/usr/share/thingsboard/bin/thingsboard.jar
 configfile=thingsboard.conf
@@ -28,12 +29,13 @@ export SPRING_DATASOURCE_URL=jdbc:postgresql://${PG_HOST}:${PG_PORT}/thingsboard
 export SPRING_DATASOURCE_USERNAME=${PG_USER}
 export SPRING_DATASOURCE_PASSWORD=${PG_PASS}
 
-until nmap $PG_HOST -p $PG_PORT | grep "$PG_PORT/tcp open"
-do
+# Wait for postgres database
+until nmap $PG_HOST -p $PG_PORT | grep "$PG_PORT/tcp open"; do
   echo "Waiting for postgres db to start..."
   sleep 2
 done
 
+# Install thingsboard for first time
 if [ ! -f ${firstlaunch} ]; then
   echo "Starting ThingsBoard installation ..."
   java -cp ${jarfile} $JAVA_OPTS -Dloader.main=org.thingsboard.server.ThingsboardInstallApplication \
@@ -46,11 +48,11 @@ if [ ! -f ${firstlaunch} ]; then
   cat /etc/tb-release > ${versionFile}
 fi
 
+# Get the current version
 actualVersion=$(cat ${versionFile})
-
-if [ "$(printf '%s\n' "$actualVersion" "$containerVersion" | sort -V | head -n1)" = "$containerVersion" ]; then 
-  echo "You are running the container version..."
-else 
+ 
+# Upgrade from last version to actual version
+if [ "$ENABLE_UPGRADE" = "true" ] && [ ! "$(printf '%s\n' "$actualVersion" "$containerVersion" | sort -V | head -n1)" = "$containerVersion" ]; then 
   echo "The current version is ${actualVersion}"
   echo "Container version is ${containerVersion}"
   echo "Upgrading to ${containerVersion}..."
@@ -65,6 +67,7 @@ else
   echo ${containerVersion} > ${versionFile}
 fi
 
+# Init thingsboard
 echo "Starting ThingsBoard ..."
 java -cp ${jarfile} $JAVA_OPTS -Dloader.main=org.thingsboard.server.ThingsboardServerApplication \
                     -Dspring.jpa.hibernate.ddl-auto=none \

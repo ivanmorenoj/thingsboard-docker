@@ -1,13 +1,14 @@
 FROM ubuntu:18.04
 
-ENV THINGS_BOARD_VERSION 3.0.1
+ENV THINGS_BOARD_VERSION 2.5.3
 
 ENV PG_HOST=postgresql \
     PG_PORT=5432 \ 
     PG_USER=postgres \
     PG_PASS=postgres
 
-ENV LOAD_DEMO=true \
+ENV ENABLE_UPGRADE=false \
+    LOAD_DEMO=true \
     LOW_RAM_USAGE=false \
     DATA_FOLDER=/data \
     HTTP_BIND_PORT=9090 \
