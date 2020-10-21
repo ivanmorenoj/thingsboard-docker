@@ -13,7 +13,7 @@ This version doesn't contain postgres database inside container, so you can add 
 
 Clone git repo
 ```sh
-git clone https://github.com/ivan28823/thingsboard-docker.git
+git clone https://github.com/ivanmorenoj/thingsboard-docker.git
 
 cd thingsboard-docker
 ```
