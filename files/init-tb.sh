@@ -26,7 +26,13 @@ fi
 
 # export DB environment variables
 if [ "$POSTGRES_SSL" = "enabled" ]; then
-  export SPRING_DATASOURCE_URL=jdbc:postgresql://${PG_HOST}:${PG_PORT}/${PG_DATABASE}?sslmode=${PG_SSL_MODE}&sslcert=${PG_SSL_CERT_FILE}&sslkey=${PG_SSL_KEY_FILE}&sslrootcert=${PG_SSL_ROOTCERT_FILE}
+  mkdir -p /etc/psql-ssl-keys/
+  openssl pkcs8 -topk8 -inform PEM -outform DER -in ${PG_SSL_KEY_FILE} -out /etc/psql-ssl-keys/client-key.pk8 -nocrypt
+  cp ${PG_SSL_CERT_FILE} /etc/psql-ssl-keys/client-cert.pem
+  cp ${PG_SSL_ROOTCERT_FILE} /etc/psql-ssl-keys/server-ca.pem
+  chmod -R a+r /etc/psql-ssl-keys/
+  
+  export SPRING_DATASOURCE_URL=jdbc:postgresql://${PG_HOST}:${PG_PORT}/${PG_DATABASE}?sslmode=${PG_SSL_MODE}&sslcert=/etc/psql-ssl-keys/client-cert.pem&sslkey=/etc/psql-ssl-keys/client-key.pk8&sslrootcert=/etc/psql-ssl-keys/server-ca.pem
 else
   export SPRING_DATASOURCE_URL=jdbc:postgresql://${PG_HOST}:${PG_PORT}/${PG_DATABASE}
 fi
