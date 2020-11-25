@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
     thingsboard:
-        image: ivan28823/thingsboard:v3.0.1
+        image: ivan28823/thingsboard:v3.1.1
         ports:
             - 9090:9090
             - 1883:1883
