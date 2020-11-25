@@ -5,7 +5,9 @@ ENV THINGS_BOARD_VERSION 3.1.1
 ENV PG_HOST=postgresql \
     PG_PORT=5432 \ 
     PG_USER=postgres \
-    PG_PASS=postgres
+    PG_PASS=postgres \
+    PG_DATABASE=thingsboard \
+    POSTGRES_SSL=disabled
 
 ENV ENABLE_UPGRADE=false \
     LOAD_DEMO=true \

@@ -25,7 +25,11 @@ if [ ! -z "$PG_PASS_FILE" ]; then
 fi
 
 # export DB environment variables
-export SPRING_DATASOURCE_URL=jdbc:postgresql://${PG_HOST}:${PG_PORT}/thingsboard
+if ["$POSTGRES_SSL" == "enabled"]; then
+  export SPRING_DATASOURCE_URL=jdbc:postgresql://${PG_HOST}:${PG_PORT}/${PG_DATABASE}?sslmode=${PG_SSL_MODE}&sslcert=${PG_SSL_CERT_FILE}&sslkey=${PG_SSL_KEY_FILE}&sslrootcert=${PG_SSL_ROOTCERT_FILE}
+else
+  export SPRING_DATASOURCE_URL=jdbc:postgresql://${PG_HOST}:${PG_PORT}/${PG_DATABASE}
+fi
 export SPRING_DATASOURCE_USERNAME=${PG_USER}
 export SPRING_DATASOURCE_PASSWORD=${PG_PASS}
 
