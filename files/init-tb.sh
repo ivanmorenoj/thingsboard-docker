@@ -38,9 +38,9 @@ if [ "$POSTGRES_SSL" = "enabled" ]; then
   cp ${PG_SSL_ROOTCERT_FILE} /etc/psql-ssl-keys/server-ca.pem
   chmod -R a+r /etc/psql-ssl-keys/
   
-  export SPRING_DATASOURCE_URL=jdbc:postgresql://${PG_HOST}:${PG_PORT}/${PG_DATABASE}?sslmode=${PG_SSL_MODE}&sslrootcert=/etc/psql-ssl-keys/server-ca.pem&sslcert=/etc/psql-ssl-keys/client-cert.pem&sslkey=/etc/psql-ssl-keys/client-key.pk8
+  export SPRING_DATASOURCE_URL="jdbc:postgresql://${PG_HOST}:${PG_PORT}/${PG_DATABASE}?sslmode=${PG_SSL_MODE}&sslrootcert=/etc/psql-ssl-keys/server-ca.pem&sslcert=/etc/psql-ssl-keys/client-cert.pem&sslkey=/etc/psql-ssl-keys/client-key.pk8"
 else
-  export SPRING_DATASOURCE_URL=jdbc:postgresql://${PG_HOST}:${PG_PORT}/${PG_DATABASE}
+  export SPRING_DATASOURCE_URL="jdbc:postgresql://${PG_HOST}:${PG_PORT}/${PG_DATABASE}"
 fi
 export SPRING_DATASOURCE_USERNAME=${PG_USER}
 export SPRING_DATASOURCE_PASSWORD=${PG_PASS}
