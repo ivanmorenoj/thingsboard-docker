@@ -3,14 +3,20 @@
 
 set -e
 
-CONF_FOLDER="/usr/share/thingsboard/conf"
+# Custom config files
+if [ -z "$CONF_FOLDER" ]; then
+  CONF_FOLDER="/usr/share/thingsboard/conf"
+fi
+if [ -z "$CONFIG_FILE" ]; then
+  CONFIG_FILE=thingsboard.conf
+fi
+
 jarfile=/usr/share/thingsboard/bin/thingsboard.jar
-configfile=thingsboard.conf
 firstlaunch=${DATA_FOLDER}/.firstlaunch
 versionFile=${DATA_FOLDER}/.tb-currentVersion
 containerVersion=$(cat /etc/tb-release)
 
-source "${CONF_FOLDER}/${configfile}"
+source "${CONF_FOLDER}/${CONFIG_FILE}"
 
 # set low ram usage in java opts
 if [ "$LOW_RAM_USAGE" = "true" ]; then
@@ -32,12 +38,18 @@ if [ "$POSTGRES_SSL" = "enabled" ]; then
   cp ${PG_SSL_ROOTCERT_FILE} /etc/psql-ssl-keys/server-ca.pem
   chmod -R a+r /etc/psql-ssl-keys/
   
-  export SPRING_DATASOURCE_URL=jdbc:postgresql://${PG_HOST}:${PG_PORT}/${PG_DATABASE}?sslmode=${PG_SSL_MODE}&sslcert=/etc/psql-ssl-keys/client-cert.pem&sslkey=/etc/psql-ssl-keys/client-key.pk8&sslrootcert=/etc/psql-ssl-keys/server-ca.pem
+  export SPRING_DATASOURCE_URL=jdbc:postgresql://${PG_HOST}:${PG_PORT}/${PG_DATABASE}?sslmode=${PG_SSL_MODE}&sslrootcert=/etc/psql-ssl-keys/server-ca.pem&sslcert=/etc/psql-ssl-keys/client-cert.pem&sslkey=/etc/psql-ssl-keys/client-key.pk8
 else
   export SPRING_DATASOURCE_URL=jdbc:postgresql://${PG_HOST}:${PG_PORT}/${PG_DATABASE}
 fi
 export SPRING_DATASOURCE_USERNAME=${PG_USER}
 export SPRING_DATASOURCE_PASSWORD=${PG_PASS}
+
+# print db config
+echo "================================= Being DB config ===================================="
+echo "Database URL: $SPRING_DATASOURCE_URL"
+echo "Database user: $SPRING_DATASOURCE_USERNAME"
+echo "================================= End DB config   ===================================="
 
 # Wait for postgres database
 until nmap $PG_HOST -p $PG_PORT | grep "$PG_PORT/tcp open"; do
