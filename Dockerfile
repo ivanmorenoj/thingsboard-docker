@@ -1,8 +1,8 @@
 FROM ubuntu:18.04
 
-ENV THINGS_BOARD_VERSION 3.1.1
+ENV THINGS_BOARD_VERSION 3.2
 
-ENV TB_DOWNLOAD_URL="https://github.com/smartcampusipn/thingsboard/releases/download/v3.1.1-sc1/thingsboard.deb -o /tmp/thingsboard.deb"
+ENV TB_DOWNLOAD_URL="https://github.com/smartcampusipn/thingsboard/releases/download/v3.2-sc/thingsboard.deb -o /tmp/thingsboard.deb"
 
 ENV PG_HOST=postgresql \
     PG_PORT=5432 \ 
