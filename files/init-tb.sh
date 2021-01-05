@@ -52,7 +52,7 @@ echo "Database user: $SPRING_DATASOURCE_USERNAME"
 echo "================================= End DB config   ===================================="
 
 # Wait for postgres database
-until nmap $PG_HOST -p $PG_PORT | grep "$PG_PORT/tcp open"; do
+until nmap -Pn $PG_HOST -p $PG_PORT | grep "$PG_PORT/tcp open"; do
   echo "Waiting for postgres db to start..."
   sleep 2
 done
