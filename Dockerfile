@@ -1,8 +1,8 @@
 FROM ubuntu:18.04
 
-ENV THINGS_BOARD_VERSION 3.2
+ENV THINGS_BOARD_VERSION 3.2.1
 
-ENV TB_DOWNLOAD_URL="https://github.com/smartcampusipn/thingsboard/releases/download/v3.2-sc/thingsboard.deb -o /tmp/thingsboard.deb"
+ENV TB_DOWNLOAD_URL="https://github.com/smartcampusipn/thingsboard/releases/download/v3.2.1-sc/thingsboard.deb"
 
 ENV PG_HOST=postgresql \
     PG_PORT=5432 \ 
@@ -27,7 +27,6 @@ RUN apt-get update && \
     update-alternatives --auto java && \
     curl -L ${TB_DOWNLOAD_URL} -o /tmp/thingsboard.deb && \
     dpkg -i /tmp/thingsboard.deb && rm -rf /tmp/* && \
-    apt-get remove -y curl && \
     apt-get autoremove -y && \
     echo ${THINGS_BOARD_VERSION} > /etc/tb-release && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
