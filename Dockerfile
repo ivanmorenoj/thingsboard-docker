@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 ENV THINGS_BOARD_VERSION 3.2.1
 
