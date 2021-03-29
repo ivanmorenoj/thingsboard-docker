@@ -1,8 +1,8 @@
-FROM ubuntu:20.04
+FROM docker.io/ubuntu:20.04
 
-ENV THINGS_BOARD_VERSION 3.2.1
+ENV THINGS_BOARD_VERSION 3.2.2
 
-ENV TB_DOWNLOAD_URL="https://github.com/smartcampusipn/thingsboard/releases/download/v3.2.1-sc/thingsboard.deb"
+ENV TB_DOWNLOAD_URL="https://github.com/smartcampusipn/thingsboard/releases/download/v3.2.2-sc/thingsboard.deb"
 
 ENV PG_HOST=postgresql \
     PG_PORT=5432 \ 
@@ -23,7 +23,7 @@ ENV ENABLE_UPGRADE=false \
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    openjdk-8-jdk nmap curl && \
+    openjdk-11-jdk nmap curl && \
     update-alternatives --auto java && \
     curl -L ${TB_DOWNLOAD_URL} -o /tmp/thingsboard.deb && \
     dpkg -i /tmp/thingsboard.deb && rm -rf /tmp/* && \
